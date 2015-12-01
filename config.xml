@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "com.phonegap.Ultra_Poke_Dex12"
+        versionCode = "1" 
+        version     = "1.0.0" >
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>Ultra Pokedex</name>
+
+    <description>
+       The greatest Pokedex app ever. 
+    </description>
+
+    <author href="https://angel.co/dossey-richards" email="richardsdossey@gmail.com">
+        Dossey S. Richards 
+    </author>
+
+ <feature name="Media">
+        <param name="android-package" value="org.apache.cordova.media." />
+</feature>
+
+    <plugin name="org.apache.cordova.media"  source="pgb" /> 
+    <plugin name="org.apache.cordova.device"  source="pgb" /> 
+    <plugin name="org.apache.cordova.file"  source="pgb" /> 
+<gap:plugin name="nl.x-services.plugins.socialsharing" />
+
+
+    <!-- to enable individual permissions use the following examples -->
+    <feature name="http://api.phonegap.com/1.0/battery"/>
+    <feature name="http://api.phonegap.com/1.0/camera"/>
+    <feature name="http://api.phonegap.com/1.0/contacts"/>
+    <feature name="http://api.phonegap.com/1.0/file"/>
+    <feature name="http://api.phonegap.com/1.0/geolocation"/>
+    <feature name="http://api.phonegap.com/1.0/media"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>
+    <feature name="http://api.phonegap.com/1.0/notification"/>
+
+    <splash src="Pokemon_icon512x512.png" platform="android" qualifier="ldpi" />
+    <splash src="Pokemon_icon512x512.png" platform="android"/>
+
+    <splash src="pokemonfeatured1024x500.png" platform="android" qualifier="mdpi" />
+    <splash src="pokemonfeatured1024x500.png" />
+    <icon src="Pokemon_icon512x512.png" />
+
+</widget>
