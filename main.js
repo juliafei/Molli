@@ -9,10 +9,9 @@
       $stateProvider
         .state('route2', {
             url: "/route2",
-            templateUrl: "/routepokemon",
+            templateUrl: "/route2",
             controller: function($scope,$stateParams){
-            	$scope.Pokemon_description = Pokemon_info[$stateParams["pokemonid"]];
-    
+
             }
         })
         .state('route1', {
