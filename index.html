@@ -11,6 +11,15 @@
 <script type = "text/javascript" src = "jquery-ui.min.js"></script>		
 <script type = "text/javascript" src = "angular-animate.js"></script>		
 <link rel="stylesheet" type="text/css" href="ratchet-theme-ios.css">
+<link rel="stylesheet" type="text/css" href="ratchet.css">
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
 <script type="text/javascript"></script>
 </head>
 <body>
@@ -19,28 +28,55 @@
     <!-- We'll also add some navigation: -->
 
 
-<script type="text/ng-template" id="/home">
+<script type="text/ng-template" id="home">
 <div ui-view>
-
-
-
-
+<header class="bar bar-nav">
+  <h1 class="title">Title</h1>
+</header>
+<br/>
+<div class="bar bar-standard bar-header-secondary">
+<nav class="bar bar-standard">
+  <div class="segmented-control">
+    <a class="control-item active">Most Popular</a>
+    <a class="control-item" ui-sref="route2">Most Recent</a>
+  </div>
+</nav>
+</div>
 
 </div>
 </script>
 
 
 
-<script type="text/ng-template" id="/route2">
+<script type="text/ng-template" id="route2">
 
-<div ui-view></div>
+<div ui-view>
+
+<header class="bar bar-nav">
+  <h1 class="title">Title</h1>
+</header>
+<br/>
+<div class="bar bar-standard bar-header-secondary">
+<nav class="bar bar-standard">
+  <div class="segmented-control">
+    <a class="control-item" ui-sref="route1">Most Popular</a>
+    <a class="control-item active">Most Recent</a>
+  </div>
+</nav>
+</div>
+
+
+
+
+
+</div>
 
 </script>
 
 
 
 
-<script type="text/ng-template" id="route3">
+<script type="text/ng-template" id="/route3">
 <div ui-view></div>
 </script>
 
