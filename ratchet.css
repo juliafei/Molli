@@ -492,8 +492,7 @@ input[type="button"] {
   height: 44px;
   padding-right: 10px;
   padding-left: 10px;
-  background-color: red;
-  color:white;
+  background-color: white;
   border-bottom: 1px solid #ddd;
 
   -webkit-backface-visibility: hidden;
@@ -536,10 +535,9 @@ input[type="button"] {
   font-size: 17px;
   font-weight: 500;
   line-height: 44px;
-  color: white;
+  color: #000;
   text-align: center;
   white-space: nowrap;
-  background-color:red !important;
 }
 
 .title a {
@@ -672,13 +670,6 @@ input[type="button"] {
 .badge-primary {
   color: #fff;
   background-color: #428bca;
-
-}
-
-.badge-yellow {
-  color: #fff;
-  background-color: yellow;
-  
 }
 .badge-primary.badge-inverted {
   color: #428bca;
