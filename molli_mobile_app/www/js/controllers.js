@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
@@ -41,16 +41,11 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+.controller('create_montage_controller', function($scope) {
+  $scope.choose_vids = function(){
+    ionic.trigger('click', { target: document.getElementById('molli_vids')});
+  };
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('home_controller', function($scope, $stateParams) {
 });
