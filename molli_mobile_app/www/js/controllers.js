@@ -41,10 +41,31 @@ angular.module('starter.controllers', ['ionic'])
   };
 })
 
-.controller('create_montage_controller', function($scope) {
+.controller('create_montage_controller', function($scope, $http) {
+  $scope.videosAdded = 0;
+
+  /////triggers hidden html5 file input element.
   $scope.choose_vids = function(){
     ionic.trigger('click', { target: document.getElementById('molli_vids')});
+  };  
+
+  $scope.addedVideo = function(){
+    $scope.videosAdded = document.getElementById('molli_vids').files.length;
   };
+
+   $scope.sendVideosToApi = function() {
+
+        $http({
+            method  : 'POST',
+            url     : 'http://127.0.0.1:3000/api/montage/new',
+              // set the headers so angular passing info as form data (not request payload)
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' },
+
+            data    :  $.param({title:"yoo"})
+
+           });
+    } 
+  
 })
 
 .controller('home_controller', function($scope, $stateParams) {
