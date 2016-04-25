@@ -73,7 +73,6 @@ angular.module('starter.controllers', ['ionic'])
               console.log(response.statusText);
           });
     } 
-  
 })
 
 .controller('home_controller', function($scope, $stateParams) {
