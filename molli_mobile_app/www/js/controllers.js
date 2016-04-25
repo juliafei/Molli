@@ -54,16 +54,24 @@ angular.module('starter.controllers', ['ionic'])
   };
 
    $scope.sendVideosToApi = function() {
-
+        var formData = new FormData();
+        formData.append("title", "Groucho");
+        /////getting all videos from html form file input and appending them to data posted to API
+        for(i=0;i<document.getElementById('molli_vids').files.length;i++){
+          formData.append("videos", document.getElementById('molli_vids').files[i]);
+        };
+        console.log("this is being called");
         $http({
             method  : 'POST',
             url     : 'http://127.0.0.1:3000/api/montage/new',
-              // set the headers so angular passing info as form data (not request payload)
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' },
-
-            data    :  $.param({title:"yoo"})
-
-           });
+            headers : { 'Content-Type': undefined },
+            data    :  formData
+           })
+        .then(function mySucces(response) {
+              console.log(response.data);
+            }, function myError(response) {
+              console.log(response.statusText);
+          });
     } 
   
 })
