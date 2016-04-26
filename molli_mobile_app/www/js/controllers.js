@@ -1,6 +1,6 @@
-angular.module('starter.controllers', ['ionic'])
+angular.module('starter.controllers', ['ionic', 'starter.services'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('login_controller', function($scope, $http, $ionicPopup, $ionicModal, $timeout, molliAuth) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -26,12 +26,33 @@ angular.module('starter.controllers', ['ionic'])
 
   // Open the login modal
   $scope.login = function() {
-    $scope.modal.show();
+   
   };
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
+    var formData = new FormData();
+        formData.append("username", $scope.username);
+        formData.append("password", $scope.password);
+    $http({
+            method  : 'POST',
+            url     : 'http://127.0.0.1:3000/api/login',
+            headers : { 'Content-Type': undefined },
+            data    :  formData
+           })
+        .then(function mySucces(response) {
+              if(response.data.success != false){
+                  
+              }
+              else{
+                  $ionicPopup.alert({
+                     title: 'Wrong username/password',
+                     template: response.data.message
+                   });
+              }          
+            }, function myError(response) {
+              console.log(response.statusText);
+          });    
 
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system

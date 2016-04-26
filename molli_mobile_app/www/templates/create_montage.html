@@ -4,6 +4,9 @@
         <div class="item item-body item-image" ng-hide="videosAdded>1">
           <img src="https://media.giphy.com/media/10ffviKT9Ix0Uo/giphy.gif">
         </div>
+        <div class="item item-body item-image" ng-show="videosAdded>1">
+          <img src="https://media.giphy.com/media/26tPaq7bbN3Fax8Sk/giphy.gif">
+        </div>
         <div class="row">
       		<div class="col col-10"></div>
           <div class="col col-80">
@@ -13,13 +16,17 @@
             <span ng-show="videosAdded>1" >{{videosAdded}} videos Added!</span>
             <span ng-show="videosAdded">
             <span ng-show="videosAdded<2">You need at least 2 videos!</span>
-            </span> 
             <a href class="button button-block button-assertive" ng-show="videosAdded>1" ng-click="sendVideosToApi()">
                Submit Montage!<i class="ion-videocamera" style="padding-left:8px;"></i>
             </a>
             <input type="file" id="molli_vids" accept="video/*" style="display:none;" id="videos[]" min="2" ng-model="molli_videos" onchange="angular.element(this).scope().addedVideo(this)" multiple/>
           </div>
        		<div class="col col-10"></div>
+        </div>
+        <label class="item item-input"  ng-show="videosAdded>1">
+        <span class="input-label subdued">Give your Montage a title</span>
+        <input type="text">
+      </label>
         </div>
     </ion-list>
   </ion-content>
