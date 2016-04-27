@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ionic', 'starter.services'])
 
-.controller('login_controller', function($scope, $http, $ionicPopup, $ionicModal, $timeout, molliAuth) {
+.controller('login_controller', function($scope, $stateParams, $http, $ionicPopup, $ionicModal, $timeout, $ionicLoading) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -11,6 +11,11 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
 
   // Form data for the login modal
   $scope.loginData = {};
+
+  $scope.userInfo = {
+    username: "",
+    password: ""
+  }; 
 
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -31,9 +36,14 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
+    debugger;
+    $ionicLoading.show({
+          template: 'Loading...'
+          });
     var formData = new FormData();
-        formData.append("username", $scope.username);
-        formData.append("password", $scope.password);
+        formData.append("username", $scope.userInfo.username);
+        formData.append("password", $scope.userInfo.password);
+        
     $http({
             method  : 'POST',
             url     : 'http://127.0.0.1:3000/api/login',
@@ -41,8 +51,12 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
             data    :  formData
            })
         .then(function mySucces(response) {
+              $ionicLoading.hide();
               if(response.data.success != false){
-                  
+                  localStorage.setItem("token", response.data.token);
+                  console.log(response.data);
+                  $stateParams.go("app.my_account");
+
               }
               else{
                   $ionicPopup.alert({
@@ -51,7 +65,11 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
                    });
               }          
             }, function myError(response) {
-              console.log(response.statusText);
+              $ionicLoading.hide();
+              $ionicPopup.alert({
+                     title: 'Connection Error',
+                     template: 'Something is wrong with your connection. Try again later.'
+                   });
           });    
 
     // Simulate a login delay. Remove this and replace with your login
@@ -61,6 +79,13 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
     }, 1000);
   };
 })
+
+
+
+
+
+
+
 
 .controller('create_montage_controller', function($scope, $http) {
   $scope.videosAdded = 0;
@@ -96,5 +121,40 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
     } 
 })
 
+.controller('my_account_controller', function($scope, $http, $state) {
+
+      $scope.$on("$ionicView.beforeEnter", function(event, data){
+           $scope.accountLoad();
+        });
+      
+      $scope.accountLoad = function(){
+            if(localStorage.getItem("token") != null){
+            var formData = new FormData();
+            
+            $http({
+                  method  : 'GET',
+                  url     : 'http://127.0.0.1:3000/api/account_details?token=' + localStorage.getItem("token"),
+                  headers : { 'Content-Type': undefined },
+                 })
+              .then(function mySucces(response) {
+                    $scope.user = response.data
+                    console.log(response.data);
+                  }, function myError(response) {
+                    console.log(response.statusText);
+                });    
+            }
+            else{
+                    $state.go('app.login'); 
+            }  
+      };
+      
+
+      
+
+})
+
+
 .controller('home_controller', function($scope, $stateParams) {
 });
+
+

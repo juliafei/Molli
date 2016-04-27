@@ -58,6 +58,16 @@ angular.module('starter', ['ionic', 'ngCordova','starter.controllers', 'starter.
         controller: 'create_montage_controller'
       }
     }
+  })
+
+  .state('app.my_account', {
+    url: '/my_account',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/my_account.html',
+        controller: 'my_account_controller'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');
