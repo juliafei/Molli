@@ -1,5 +1,18 @@
 <ion-view view-title="My Account">
   <ion-content>
-  {{user}}
+      <div class="item item-divider">
+        <h1 style="text-align:center;">$$ {{user.username}} $$</h3>
+      </div>
+    <div class="list">
+      <a class="item item-icon-left" href="#">
+        <i class="icon ion-ios-film"></i>
+          My Montages
+      </a>
+
+      <a class="item item-icon-left" ng-click="logout()">
+        <i class="icon ion-gear-a"></i>
+        Logout
+      </a>
+    </div>
   </ion-content>
 </ion-view>

@@ -19,7 +19,7 @@
             <a href class="button button-block button-assertive" ng-show="videosAdded>1" ng-click="sendVideosToApi()">
                Submit Montage!<i class="ion-videocamera" style="padding-left:8px;"></i>
             </a>
-            <input type="file" id="molli_vids" accept="video/*" style="display:none;" id="videos[]" min="2" ng-model="molli_videos" onchange="angular.element(this).scope().addedVideo(this)" multiple/>
+            <input type="file" id="molli_vids" accept="video/mp4" style="display:none;" id="videos[]" min="2" ng-model="molli_videos" onchange="angular.element(this).scope().addedVideo(this)" multiple/>
           </div>
        		<div class="col col-10"></div>
         </div>

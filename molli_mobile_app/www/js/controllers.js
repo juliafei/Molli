@@ -122,7 +122,8 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
 })
 
 .controller('my_account_controller', function($scope, $http, $state) {
-
+    /////////this first function gathers the user's data before opening the view
+    //////it also sends him to the login page if he is not authenticated
       $scope.$on("$ionicView.beforeEnter", function(event, data){
            $scope.accountLoad();
         });
@@ -137,7 +138,7 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
                   headers : { 'Content-Type': undefined },
                  })
               .then(function mySucces(response) {
-                    $scope.user = response.data
+                    $scope.user = response.data;
                     console.log(response.data);
                   }, function myError(response) {
                     console.log(response.statusText);
@@ -147,14 +148,135 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
                     $state.go('app.login'); 
             }  
       };
-      
+      $scope.logout = function(){
+        localStorage.removeItem("token", null);
+        $state.go('app.home'); 
+      }
 
       
 
 })
 
+.controller('watch_montage_controller', function($scope, $stateParams, $state, $http, $ionicLoading) {
+        $scope.$on("$ionicView.beforeEnter", function(event, data){
+            $ionicLoading.show({
+              template: 'Loading...'
+              });
+           $scope.getMontageContent();
+        });
 
-.controller('home_controller', function($scope, $stateParams) {
+
+        $scope.$on("$ionicView.enter", function(event, data){
+          $scope.beginMontagePlaylist();
+        });
+
+         $scope.$on("$ionicView.beforeLeave", function(event, data){
+            $scope.leaveState();         
+        });
+
+
+        $scope.leaveState = function(){
+          var videoPlayer= document.getElementById('video');
+          videoPlayer.pause(); 
+        };
+
+
+
+       $scope.getMontageContent = function(){
+             $http({
+                  method  : 'GET',
+                  url     : 'http://127.0.0.1:3000/api/montage/watch/' + $stateParams.montage_id,
+                  headers : { 'Content-Type': undefined },
+                 })
+                .then(function mySucces(response) {
+                      $scope.montage_info = response.data.result;
+                      $scope.video_array = response.data.result.videos;
+                      $scope.caption = response.data.result.title;
+                      console.log(response.data);
+                      $ionicLoading.hide();
+                    }, function myError(response) {
+                      console.log(response.statusText);
+                  });    
+          };
+      
+      $scope.beginMontagePlaylist = function(){
+        var videoPlayer= document.getElementById('video');
+        videoPlayer.src="http://127.0.0.1:3000/videos/" + $scope.video_array[0].video;
+        var i = 1;
+        videoPlayer.addEventListener('ended', function(){
+        if(i < $scope.video_array.length){
+            this.pause();
+            this.src = "http://127.0.0.1:3000/videos/" + $scope.video_array[i].video;
+            i++;
+          }
+          else{
+            this.src = "http://127.0.0.1:3000/videos/" + $scope.video_array[0].video;
+            i = 1;
+          }
+
+            }, false);
+      };
+     
+})
+
+.controller('home_controller', function($scope, $stateParams, $ionicLoading, $http) {
+      $scope.$on("$ionicView.beforeEnter", function(event, data){
+            $ionicLoading.show({
+              template: 'Loading...'
+              });
+            $scope.getRecentContent();
+            $scope.noMoreVideos = false;
+            $scope.counter = 1;
+        });
+
+        $scope.loadMore = function() {
+           $http({
+                  method  : 'GET',
+                  url     : 'http://127.0.0.1:3000/api/montage/recent/page/' + $scope.counter,
+                  headers : { 'Content-Type': undefined },
+                 })
+              .then(function mySucces(response) {
+                    if(response.data.results.length > 0){
+                      $scope.montages.push(response.data.results);
+                      console.log(response.data);
+                      $scope.$broadcast('scroll.infiniteScrollComplete');
+                      $scope.counter++;
+                    }
+                    else{
+                      $scope.noMoreVideos = true;
+                    }
+                    
+                  }, function myError(response) {
+                    console.log(response.statusText);
+                     $ionicPopup.alert({
+                           title: 'Connection Error',
+                           template: 'Something is wrong with your connection. Try again later.'
+                         });
+          });
+       };
+
+
+
+      $scope.getRecentContent = function(){
+        $http({
+                  method  : 'GET',
+                  url     : 'http://127.0.0.1:3000/api/montage/recent',
+                  headers : { 'Content-Type': undefined },
+                 })
+              .then(function mySucces(response) {
+                    $ionicLoading.hide();
+                    $scope.montages = response.data.results;
+                    console.log(response.data);
+                  }, function myError(response) {
+                    console.log(response.statusText);
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({
+                           title: 'Connection Error',
+                           template: 'Something is wrong with your connection. Try again later.'
+                         });
+                }); 
+      };
+
 });
 
 

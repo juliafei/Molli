@@ -60,6 +60,16 @@ angular.module('starter', ['ionic', 'ngCordova','starter.controllers', 'starter.
     }
   })
 
+  .state('app.watch_montage', {
+    url: '/montage/:montage_id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/watch_montage.html',
+        controller: 'watch_montage_controller'
+      }
+    }
+  })
+
   .state('app.my_account', {
     url: '/my_account',
     views: {

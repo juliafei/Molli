@@ -1,16 +1,22 @@
-<ion-view view-title="Molli">
+<ion-view view-title="Molli" hide-back-button="true">
   <ion-content>
     <ion-list>
-    	<div class="row">
-      		<div class="col col-25"></div>
-       		<img src="../img/LOGO@3x.png" class="col col-50">
-       		<div class="col col-25"></div>
-      	</div>
-      	<a ng-href="#/app/create_montage"  class="button button-block button-assertive" style="text-decoration:none;">
-      	 Make A Montage <i class="icon ion-plus-circled"></i>
-      	</a>
+      <div class="item item-divider">
+        Most Recent
+      </div>
+      
+      <div class="list card" ng-repeat="montage in montages">
+        <div class="item item-image">
+          <a href="#/app/montage/{{montage._id}}"><video src='http://127.0.0.1:3000/api/montage/watch/{{montage.videos[0].video}}' style="height:300px;width:300px;">
+        </div>
 
-      </ion-item>
+      </div>
+      <ion-infinite-scroll
+        on-infinite="loadMore()"
+        distance="1%"
+        ng-if="!noMoreVideos">
+      </ion-infinite-scroll>
     </ion-list>
+    <h3 ng-show="noMoreVideos" style="text-align:center;">No more tripps </h3>
   </ion-content>
 </ion-view>
