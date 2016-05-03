@@ -23,7 +23,7 @@ angular.module('starter', ['ionic', 'ngCordova','starter.controllers', 'starter.
 })
 
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $sceDelegateProvider) {
   $stateProvider
   .state('app', {
     url: '/app',
@@ -81,4 +81,11 @@ angular.module('starter', ['ionic', 'ngCordova','starter.controllers', 'starter.
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');
+  $sceDelegateProvider.resourceUrlWhitelist([
+    // Allow same origin resource loads.
+    'self',
+    // Allow loading from our assets domain.  Notice the difference between * and **.
+    'http://http:127.0.0.1:3000/**'
+  ]);
+
 });

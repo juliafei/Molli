@@ -219,7 +219,7 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
      
 })
 
-.controller('home_controller', function($scope, $stateParams, $ionicLoading, $http) {
+.controller('home_controller', function($scope, $stateParams, $ionicLoading, $http, $sce) {
       $scope.$on("$ionicView.beforeEnter", function(event, data){
             $ionicLoading.show({
               template: 'Loading...'
@@ -228,6 +228,12 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
             $scope.noMoreVideos = false;
             $scope.counter = 1;
         });
+
+
+
+        $scope.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
+        };
 
         $scope.loadMore = function() {
            $http({
