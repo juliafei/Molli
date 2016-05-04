@@ -11,7 +11,7 @@
         </div>
         <div class="item item-image">
           <a ui-sref="app.watch_montage({montage_id:montage._id})">
-            <video ng-src='{{trustSrc("http://127.0.0.1:3000/videos/" + montage.videos[0].video)}}' style="height:300px;width:300px;"></video>
+            <video ng-src='{{trustSrc("http://127.0.0.1:3000/videos/" + montage.videos[0].video)}}' style=""></video>
           </a>
         </div>
       </div>
@@ -23,6 +23,6 @@
         ng-if="!noMoreVideos">
       </ion-infinite-scroll>
     </ion-list>
-    <h3 ng-show="noMoreVideos" style="text-align:center;">No more tripps </h3>
+    <h3 ng-show="noMoreVideos" style="text-align:center;">.... </h3>
   </ion-content>
 </ion-view>

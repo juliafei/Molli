@@ -81,7 +81,54 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
 })
 
 
+.controller('sign_up_controller', function($scope, $stateParams, $http, $state, $ionicLoading) {
 
+
+ $scope.userInfo = {
+    username: "",
+    password: ""
+  }; 
+
+
+$scope.doSignUp= function() {
+    $ionicLoading.show({
+          template: 'Loading...'
+          });
+    var formData = new FormData();
+        formData.append("username", $scope.userInfo.username);
+        formData.append("password", $scope.userInfo.password);
+        
+    $http({
+            method  : 'POST',
+            url     : 'http://127.0.0.1:3000/api/sign_up',
+            headers : { 'Content-Type': undefined },
+            data    :  formData
+           })
+        .then(function mySucces(response) {
+              $ionicLoading.hide();
+              if(response.data.success != false){
+                  localStorage.setItem("token", response.data.token);
+                  console.log(response.data);
+                  $state.go("app.my_account");
+
+              }
+              else{
+                  $ionicPopup.alert({
+                     title: 'Wrong username/password',
+                     template: response.data.message
+                   });
+              }          
+            }, function myError(response) {
+              $ionicLoading.hide();
+              $ionicPopup.alert({
+                     title: 'Connection Error',
+                     template: 'Something is wrong with your connection. Try again later.'
+                   });
+          });
+      };    
+
+
+})
 
 
 
@@ -151,7 +198,7 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
       $scope.logout = function(){
         localStorage.removeItem("token", null);
         $state.go('app.home'); 
-      }
+      };
 
       
 
