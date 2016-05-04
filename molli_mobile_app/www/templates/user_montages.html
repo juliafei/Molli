@@ -1,0 +1,28 @@
+<ion-view view-title="Molli" hide-back-button="true">
+  <ion-content>
+    <ion-list>
+      <div class="item item-divider">
+        My Montages
+      </div>
+      
+      <div class="list card" ng-repeat="montage in montages">
+        <div class="item item-divider" style="text-align:center;">
+         {{montage.title}}
+        </div>
+        <div class="item item-image">
+          <a ui-sref="app.watch_montage({montage_id:montage._id})">
+            <video ng-src='{{trustSrc("http://127.0.0.1:3000/videos/" + montage.videos[0].video)}}' style=""></video>
+          </a>
+        </div>
+      </div>
+
+      </div>
+      <ion-infinite-scroll
+        on-infinite="loadMore()"
+        distance="1%"
+        ng-if="!noMoreVideos">
+      </ion-infinite-scroll>
+    </ion-list>
+    <h3 ng-show="noMoreVideos" style="text-align:center;">.... </h3>
+  </ion-content>
+</ion-view>

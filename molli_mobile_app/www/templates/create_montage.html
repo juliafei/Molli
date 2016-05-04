@@ -2,10 +2,7 @@
   <ion-content>
     <ion-list>
         <div class="item item-body item-image" ng-hide="videosAdded>1">
-          <img src="https://media.giphy.com/media/10ffviKT9Ix0Uo/giphy.gif">
-        </div>
-        <div class="item item-body item-image" ng-show="videosAdded>1">
-          <img src="https://media.giphy.com/media/26tPaq7bbN3Fax8Sk/giphy.gif">
+          <img src="img/addavideogif.gif">
         </div>
         <div class="row">
       		<div class="col col-10"></div>
@@ -13,7 +10,6 @@
             <button class="button button-block button-assertive" ng-hide="videosAdded>1" ng-click="choose_vids()">
                Add Videos<i class="ion-videocamera" style="padding-left:8px;"></i>
             </button>
-            <span ng-show="videosAdded>1" >{{videosAdded}} videos Added!</span>
             <span ng-show="videosAdded">
             <span ng-show="videosAdded<2">You need at least 2 videos!</span>
             <a href class="button button-block button-assertive" ng-show="titleReady" ng-click="sendVideosToApi()">
@@ -23,10 +19,16 @@
           </div>
        		<div class="col col-10"></div>
         </div>
-        <label class="item item-input"  ng-show="videosAdded>1">
-        <span class="input-label subdued">Give your Montage a title</span>
-        <input type="text">
-      </label>
+
+        <label class="item item-input" ng-show="videosAdded>1">
+          <span class="input-label">Give your flick a title</span>
+          <input type="text" id="title" ng-model="userInfo.title">
+        </label>
+        <a href class="button button-block button-assertive" ng-show="videosAdded>1" ng-click="sendVideosToApi()">
+               Submit Montage!<i class="ion-videocamera" style="padding-left:8px;"></i>
+            </a>
+            <center><span ng-show="videosAdded>1" >{{videosAdded}} videos Added!</span></center>
+
         </div>
     </ion-list>
   </ion-content>

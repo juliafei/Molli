@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ionic', 'starter.services'])
 
-.controller('login_controller', function($scope, $stateParams, $http, $ionicPopup, $ionicModal, $timeout, $ionicLoading) {
+.controller('login_controller', function($scope, $state, $stateParams, $http, $ionicPopup, $ionicModal, $timeout, $ionicLoading) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -52,13 +52,14 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
            })
         .then(function mySucces(response) {
               $ionicLoading.hide();
-              if(response.data.success != false){
+              if(response.data.success === true){
+                  $ionicLoading.hide();
                   localStorage.setItem("token", response.data.token);
-                  console.log(response.data);
-                  $stateParams.go("app.my_account");
+                  $state.go("app.my_account");
 
               }
               else{
+                  $ionicLoading.hide();
                   $ionicPopup.alert({
                      title: 'Wrong username/password',
                      template: response.data.message
@@ -134,9 +135,11 @@ $scope.doSignUp= function() {
 
 
 
-.controller('create_montage_controller', function($scope, $http) {
+.controller('create_montage_controller', function($scope,$state,  $http) {
   $scope.videosAdded = 0;
-
+  $scope.userInfo = {
+    title: "",
+  }; 
   /////triggers hidden html5 file input element.
   $scope.choose_vids = function(){
     ionic.trigger('click', { target: document.getElementById('molli_vids')});
@@ -148,7 +151,7 @@ $scope.doSignUp= function() {
 
    $scope.sendVideosToApi = function() {
         var formData = new FormData();
-        formData.append("title", "Groucho");
+        formData.append("title", $scope.userInfo.title);
         /////getting all videos from html form file input and appending them to data posted to API
         for(i=0;i<document.getElementById('molli_vids').files.length;i++){
           formData.append("videos", document.getElementById('molli_vids').files[i]);
@@ -161,8 +164,13 @@ $scope.doSignUp= function() {
             data    :  formData
            })
         .then(function mySucces(response) {
-              console.log(response.data);
+              console.log(response);
+              $state.go('app.watch_montage', {montage_id:response.data.montage._id});
             }, function myError(response) {
+               $ionicPopup.alert({
+                           title: 'Connection Error',
+                           template: 'Something is wrong with your connection. Try again later.'
+                         });
               console.log(response.statusText);
           });
     } 
@@ -188,6 +196,10 @@ $scope.doSignUp= function() {
                     $scope.user = response.data;
                     console.log(response.data);
                   }, function myError(response) {
+                     $ionicPopup.alert({
+                           title: 'Connection Error',
+                           template: 'Something is wrong with your connection. Try again later.'
+                         });
                     console.log(response.statusText);
                 });    
             }
@@ -242,6 +254,12 @@ $scope.doSignUp= function() {
                       console.log(response.data);
                       $ionicLoading.hide();
                     }, function myError(response) {
+                       $ionicLoading.hide();
+                       $ionicPopup.alert({
+                           title: 'Connection Error',
+                           template: 'Something is wrong with your connection. Try again later.'
+                         });
+                       $state.go('app.home');
                       console.log(response.statusText);
                   });    
           };
@@ -265,6 +283,74 @@ $scope.doSignUp= function() {
       };
      
 })
+
+.controller('my_montages_controller', function($scope, $stateParams, $ionicLoading, $http, $sce) {
+      $scope.$on("$ionicView.beforeEnter", function(event, data){
+            $ionicLoading.show({
+              template: 'Loading...'
+              });
+            $scope.getRecentContent();
+            $scope.noMoreVideos = false;
+            $scope.counter = 1;
+        });
+
+
+
+        $scope.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
+        };
+
+        $scope.loadMore = function() {
+           $http({
+                  method  : 'GET',
+                  url     : 'http://127.0.0.1:3000/api/my_montages' + $scope.counter,
+                  headers : { 'Content-Type': undefined },
+                 })
+              .then(function mySucces(response) {
+                    if(response.data.results.length > 0){
+                      $scope.montages.push(response.data.results);
+                      console.log(response.data);
+                      $scope.$broadcast('scroll.infiniteScrollComplete');
+                      $scope.counter++;
+                    }
+                    else{
+                      $scope.noMoreVideos = true;
+                    }
+                    
+                  }, function myError(response) {
+                    console.log(response.statusText);
+                     $ionicPopup.alert({
+                           title: 'Connection Error',
+                           template: 'Something is wrong with your connection. Try again later.'
+                         });
+          });
+       };
+
+
+
+      $scope.getRecentContent = function(){
+        $http({
+                  method  : 'GET',
+                  url     : 'http://127.0.0.1:3000/api/montage/recent',
+                  headers : { 'Content-Type': undefined },
+                 })
+              .then(function mySucces(response) {
+                    $ionicLoading.hide();
+                    $scope.montages = response.data.results;
+                    console.log(response.data);
+                  }, function myError(response) {
+                    console.log(response.statusText);
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({
+                           title: 'Connection Error',
+                           template: 'Something is wrong with your connection. Try again later.'
+                         });
+                }); 
+      };
+
+})
+
+
 
 .controller('home_controller', function($scope, $stateParams, $ionicLoading, $http, $sce) {
       $scope.$on("$ionicView.beforeEnter", function(event, data){
@@ -300,8 +386,9 @@ $scope.doSignUp= function() {
                     }
                     
                   }, function myError(response) {
-                    console.log(response.statusText);
-                     $ionicPopup.alert({
+                      console.log(response.statusText);
+                      $ionicLoading.hide();
+                      $ionicPopup.alert({
                            title: 'Connection Error',
                            template: 'Something is wrong with your connection. Try again later.'
                          });
