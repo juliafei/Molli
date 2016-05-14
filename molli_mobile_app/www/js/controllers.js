@@ -1,14 +1,14 @@
 angular.module('starter.controllers', ['ionic', 'starter.services'])
 
 .controller('login_controller', function($scope, $state, $stateParams, $http, $ionicPopup, $ionicModal, $timeout, $ionicLoading) {
-
+  console.log("controller set");
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
   // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
+  /*$scope.$on('$ionicView.enter', function(e) {
+  });
+*/
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -17,13 +17,6 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
     password: ""
   }; 
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
   // Triggered in the login modal to close it
   $scope.closeLogin = function() {
     $scope.modal.hide();
@@ -31,12 +24,12 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
 
   // Open the login modal
   $scope.login = function() {
-   
+   console.log('wow');
   };
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
-    debugger;
+    console.log("event fired");
     $ionicLoading.show({
           template: 'Loading...'
           });
@@ -135,7 +128,7 @@ $scope.doSignUp= function() {
 
 
 
-.controller('create_montage_controller', function($scope,$state,  $http) {
+.controller('create_montage_controller', function($scope,$state, $ionicPopup,  $ionicLoading,$http) {
   $scope.videosAdded = 0;
   $scope.userInfo = {
     title: "",
@@ -143,14 +136,26 @@ $scope.doSignUp= function() {
   /////triggers hidden html5 file input element.
   $scope.choose_vids = function(){
     ionic.trigger('click', { target: document.getElementById('molli_vids')});
+    console.log("even fired");
   };  
 
-  $scope.addedVideo = function(){
-    $scope.videosAdded = document.getElementById('molli_vids').files.length;
-  };
+  $scope.addedVideo = function(element){
 
+    $scope.$apply(function() {
+      console.log(element);
+      $scope.videosAdded = document.getElementById('molli_vids').files.length;
+      console.log($scope.videosAdded);
+    });
+  };
+ 
    $scope.sendVideosToApi = function() {
+        $ionicLoading.show({
+          template: 'Loading...'
+          });
         var formData = new FormData();
+        if(localStorage.getItem('token') != null){
+          formData.append("token", localStorage.getItem('token') );
+        };
         formData.append("title", $scope.userInfo.title);
         /////getting all videos from html form file input and appending them to data posted to API
         for(i=0;i<document.getElementById('molli_vids').files.length;i++){
@@ -164,9 +169,11 @@ $scope.doSignUp= function() {
             data    :  formData
            })
         .then(function mySucces(response) {
+              $ionicLoading.hide();
               console.log(response);
               $state.go('app.watch_montage', {montage_id:response.data.montage._id});
             }, function myError(response) {
+              $ionicLoading.hide();
                $ionicPopup.alert({
                            title: 'Connection Error',
                            template: 'Something is wrong with your connection. Try again later.'
@@ -267,11 +274,12 @@ $scope.doSignUp= function() {
       $scope.beginMontagePlaylist = function(){
         var videoPlayer= document.getElementById('video');
         videoPlayer.src="http://127.0.0.1:3000/videos/" + $scope.video_array[0].video;
+        videoPlayer.webkitIsFullscreen;
         var i = 1;
         videoPlayer.addEventListener('ended', function(){
         if(i < $scope.video_array.length){
             this.pause();
-            this.src = "http://127.0.0.1:3000/videos/" + $scope.video_array[i].video;
+            this.src = "http://127.0.0.1:3000/videos/" + $scopme.video_array[i].video;
             i++;
           }
           else{
@@ -285,13 +293,14 @@ $scope.doSignUp= function() {
 })
 
 .controller('my_montages_controller', function($scope, $stateParams, $ionicLoading, $http, $sce) {
+
       $scope.$on("$ionicView.beforeEnter", function(event, data){
             $ionicLoading.show({
               template: 'Loading...'
               });
-            $scope.getRecentContent();
-            $scope.noMoreVideos = false;
+            $scope.getInitialContent();
             $scope.counter = 1;
+            $scope.noMoreVideos = true;
         });
 
 
@@ -303,7 +312,7 @@ $scope.doSignUp= function() {
         $scope.loadMore = function() {
            $http({
                   method  : 'GET',
-                  url     : 'http://127.0.0.1:3000/api/my_montages' + $scope.counter,
+                  url     : 'http://127.0.0.1:3000/api/montage/my_montages/page/' + $scope.counter+'?token=' +localStorage.getItem('token'),
                   headers : { 'Content-Type': undefined },
                  })
               .then(function mySucces(response) {
@@ -314,7 +323,8 @@ $scope.doSignUp= function() {
                       $scope.counter++;
                     }
                     else{
-                      $scope.noMoreVideos = true;
+                      $ionicLoading.hide();
+                      $scope.noMoreVideos = false;
                     }
                     
                   }, function myError(response) {
@@ -328,15 +338,18 @@ $scope.doSignUp= function() {
 
 
 
-      $scope.getRecentContent = function(){
+      $scope.getInitialContent = function(){
         $http({
                   method  : 'GET',
-                  url     : 'http://127.0.0.1:3000/api/montage/recent',
+                  url     : 'http://127.0.0.1:3000/api/montage/my_montages/page/' + $scope.counter+'?token=' +localStorage.getItem('token'),
                   headers : { 'Content-Type': undefined },
                  })
               .then(function mySucces(response) {
                     $ionicLoading.hide();
                     $scope.montages = response.data.results;
+                    if($scope.montages.length < 1){
+                      $scope.videos = true;
+                    }
                     console.log(response.data);
                   }, function myError(response) {
                     console.log(response.statusText);
@@ -352,7 +365,7 @@ $scope.doSignUp= function() {
 
 
 
-.controller('home_controller', function($scope, $stateParams, $ionicLoading, $http, $sce) {
+.controller('home_controller', function($scope, $stateParams, $state, $ionicPopup, $ionicLoading, $http, $sce) {
       $scope.$on("$ionicView.beforeEnter", function(event, data){
             $ionicLoading.show({
               template: 'Loading...'

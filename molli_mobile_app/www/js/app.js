@@ -29,14 +29,15 @@ angular.module('starter', ['ionic', 'ngCordova','starter.controllers', 'starter.
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'login_controller'
   })
 
   .state('app.login', {
     url: '/login',
     views: {
       'menuContent': {
-        templateUrl: 'templates/login.html'
+        templateUrl: 'templates/login.html',
+        controller: 'login_controller'
+
       }
     }
   })
@@ -103,9 +104,9 @@ angular.module('starter', ['ionic', 'ngCordova','starter.controllers', 'starter.
   $urlRouterProvider.otherwise('/app/home');
   $sceDelegateProvider.resourceUrlWhitelist([
     // Allow same origin resource loads.
-    'self',
     // Allow loading from our assets domain.  Notice the difference between * and **.
-    'http://http:127.0.0.1:3000/**'
+    'http://http:127.0.0.1:3000/**',
+    'http://molli.tv/**'
   ]);
 
 });

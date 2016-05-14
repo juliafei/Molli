@@ -1,7 +1,6 @@
 <ion-view  view-title="Login" hide-back-button="true">
   <ion-content>
-    <form >
-      <div class="list">
+    <ion-list>
         <label class="item item-input">
           <span class="input-label">Username</span>
           <input type="text" id="username" ng-model="userInfo.username">
@@ -10,11 +9,11 @@
           <span class="input-label">Password</span>
           <input type="password" id="password" ng-model="userInfo.password">
         </label>
+
         <label class="item">
-          <a class="button button-block button-positive" type="submit" ng-click="doLogin()">Log in</a>
+          <button class="button button-block button-positive"  href="#" ng-click="doLogin()">Log in</button>
         </label>
         <p style="padding:10%;">If you do not have an account please sign up <a ui-sref="app.sign_up">here.</a></p>
-      </div>
-    </form>
+    </ion-list>
   </ion-content>
 </ion-view>

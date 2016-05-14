@@ -1,4 +1,4 @@
-<ion-view view-title="Create Montage">
+<ion-view view-title="Create Montage" class="bar-assertive" cache-view="false">
   <ion-content>
     <ion-list>
         <div class="item item-body item-image" ng-hide="videosAdded>1">
@@ -7,7 +7,7 @@
         <div class="row">
       		<div class="col col-10"></div>
           <div class="col col-80">
-            <button class="button button-block button-assertive" ng-hide="videosAdded>1" ng-click="choose_vids()">
+            <a class="button button-block button-assertive" ng-hide="videosAdded>1" ng-click="choose_vids()">
                Add Videos<i class="ion-videocamera" style="padding-left:8px;"></i>
             </button>
             <span ng-show="videosAdded">

@@ -1,7 +1,8 @@
 <ion-view view-title="Molli" hide-back-button="true">
+
   <ion-content>
     <ion-list>
-      <div class="item item-divider">
+      <div class="item item-divider" style="text-align:center;">
         My Montages
       </div>
       
@@ -14,15 +15,21 @@
             <video ng-src='{{trustSrc("http://127.0.0.1:3000/videos/" + montage.videos[0].video)}}' style=""></video>
           </a>
         </div>
+        <div class="item item-divider" style="text-align:center;">
+          By: ${{montage.belongs_to_username}}
+        </div>
       </div>
 
       </div>
-      <ion-infinite-scroll
+       <ion-infinite-scroll
         on-infinite="loadMore()"
-        distance="1%"
-        ng-if="!noMoreVideos">
+        distance="7%"
+        ng-hide="!noMoreVideos"
+        ng-hide="!noMontages"
+        >
       </ion-infinite-scroll>
     </ion-list>
-    <h3 ng-show="noMoreVideos" style="text-align:center;">.... </h3>
+    <p ng-show="!noMontages" style="padding:10%;"> Make more <a ui-sref="app.create_montage">here.</a> </p>
+    <p ng-show="videos" style="text-align:center;">You haven't made any montages! Make one here <a ui-sref="app.create_montage">here.</a></p>
   </ion-content>
 </ion-view>
