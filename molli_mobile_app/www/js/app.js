@@ -51,6 +51,16 @@ angular.module('starter', ['ionic', 'ngCordova','starter.controllers', 'starter.
       }
     })
 
+.state('app.popular', {
+      url: '/popular',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/popular.html',
+          controller: 'popular_controller'
+        }
+      }
+    })
+
   .state('app.create_montage', {
     url: '/create_montage',
     views: {
@@ -101,12 +111,16 @@ angular.module('starter', ['ionic', 'ngCordova','starter.controllers', 'starter.
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/home');
+  $urlRouterProvider.otherwise('/app/popular');
   $sceDelegateProvider.resourceUrlWhitelist([
     // Allow same origin resource loads.
     // Allow loading from our assets domain.  Notice the difference between * and **.
     'http://http:127.0.0.1:3000/**',
-    'http://molli.tv/**'
+    'http://molli.tv/**',
+    'http://molli.tv/api/**',
+    'http://molli.tv/videos/**'
+
+
   ]);
 
 });

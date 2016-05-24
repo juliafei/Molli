@@ -1,4 +1,17 @@
 {
   "name": "molli_mobile_app",
-  "app_id": ""
+  "app_id": "",
+  "proxies": [
+    {
+      "path": "/new_montage",
+      "proxyUrl": "http://Molli.tv/api/montage/new"
+    }
+  ],
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "12.41.296.5"
+    }
+  ]
 }

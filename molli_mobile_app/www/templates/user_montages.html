@@ -12,7 +12,9 @@
         </div>
         <div class="item item-image">
           <a ui-sref="app.watch_montage({montage_id:montage._id})">
-            <video ng-src='{{trustSrc("http://127.0.0.1:3000/videos/" + montage.videos[0].video)}}' style=""></video>
+            <video  style="">
+                <source ng-src='{{trustSrc("http://Molli.tv/videos/" + montage.videos[0].video)}}' > 
+              </video>
           </a>
         </div>
         <div class="item item-divider" style="text-align:center;">
@@ -29,7 +31,7 @@
         >
       </ion-infinite-scroll>
     </ion-list>
-    <p ng-show="!noMontages" style="padding:10%;"> Make more <a ui-sref="app.create_montage">here.</a> </p>
+    <p ng-show="!noMontages" style="padding:10%;"> Make montages <a ui-sref="app.create_montage">here.</a> </p>
     <p ng-show="videos" style="text-align:center;">You haven't made any montages! Make one here <a ui-sref="app.create_montage">here.</a></p>
   </ion-content>
 </ion-view>

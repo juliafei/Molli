@@ -1,8 +1,8 @@
-<ion-view view-title="Molli" hide-back-button="true" has-footer="true">
+<ion-view view-title="Molli" hide-back-button="true" has-footer="true" overflow-scroll="true">
   <ion-content>
-    <ion-list>
+    <ion-list data-tap-disable="true">
       <div class="item item-divider" style="text-align:center;">
-        Most Recent Montages     <i class="icon ion-planet"></i>
+        Recent Montages     <i class="icon ion-planet"></i>
 
       </div>
       
@@ -11,9 +11,10 @@
           <div class="item item-divider" style="text-align:center;">
            {{montage.title}}
           </div>
-          <div class="item item-image">
-            
-              <video ng-src='{{trustSrc("http://127.0.0.1:3000/videos/" + montage.videos[0].video)}}' style=""></video>
+          <div class="item item-image" style="background-color:transparent;">
+              <video  style="">
+                <source ng-src='{{trustSrc("http://Molli.tv/videos/" + montage.videos[0].video)}}' > 
+              </video>
           </div>
         </a>
       </div>
@@ -28,8 +29,8 @@
     <h3 ng-show="noMoreVideos" style="text-align:center;">.... </h3>
   </ion-content>
   <div class="tabs tabs-icon-top">
-  <a class="tab-item">
-    <i class="icon ion-flame"></i>
+  <a class="tab-item" ui-sref="app.popular">
+    <i class="icon ion-flame" ></i>
     Trending
   </a>
   <a class="tab-item active">

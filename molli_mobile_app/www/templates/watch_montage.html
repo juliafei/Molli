@@ -1,4 +1,11 @@
-<ion-view view-title="Molli">
-  	<video  id="video" class="centerme" autoplay style="min-height:100%;min-width:100%;"></video>
-
+<ion-view view-title="Molli" hide-nav-bar="true" cache-view="false"  overflow-scroll="true">
+	<ion-content>
+	<div class="bar bar_watch bar-header" style="background-color:transparent;border:0px !important;border-bottom:0px !important;border-bottom-color: transparent !important;">
+	  <button ui-sref="app.home" class="button button-icon icon ion-chevron-left" style="color:white;"></button>
+	  <button class="button button-icon icon-right ion-share " ng-click="share_vid({{montage_info._id}})" style="color:white;"></button>
+	</div>
+  		<video  id="video" autoplay  style="min-height:100%;" class="centerme">
+  			<source type="video/mp4"> 
+  		</video>
+  	</ion-content>
 </ion-view>

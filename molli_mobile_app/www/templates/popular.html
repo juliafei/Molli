@@ -1,0 +1,43 @@
+<ion-view view-title="Molli" hide-back-button="true" has-footer="true">
+  <ion-content>
+    <ion-list>
+      <div class="item item-divider" style="text-align:center;">
+        Popular Montages     <i class="icon ion-planet"></i>
+
+      </div>
+      
+      <div class="list card" ng-repeat="montage in montages">
+        <a ui-sref="app.watch_montage({montage_id: montage._id})" style="text-decoration:none;">
+          <div class="item item-divider" style="text-align:center;">
+           {{montage.title}}
+          </div>
+          <div class="item item-image">
+            
+              <video ng-src='{{trustSrc("http://Molli.tv/videos/" + montage.videos[0].video)}}' style=""></video>
+          </div>
+        </a>
+      </div>
+
+      </div>
+      <ion-infinite-scroll
+        on-infinite="loadMore()"
+        distance="1%"
+        ng-if="!noMoreVideos">
+      </ion-infinite-scroll>
+    </ion-list>
+    <h3 ng-show="noMoreVideos" style="text-align:center;">.... </h3>
+  </ion-content>
+  <div class="tabs tabs-icon-top">
+  <a class="tab-item active">
+    <i class="icon ion-flame"></i>
+    Trending
+  </a>
+  <a class="tab-item" ui-sref="app.home">
+    <i class="icon ion-calendar"></i>
+    Recent
+  </a>
+  <a class="tab-item icon  tabs-icon-only" ui-sref="app.create_montage">
+    <i class="icon ion-ios-plus-outline" style="size:100%;padding-top:8px;"></i>
+  </a>
+  </div>
+</ion-view>

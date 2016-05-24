@@ -4,10 +4,13 @@
 	color:white;
 }
 
+.scroll{
+  height:100%;
+}
+
+.bar_watch { background-image: none !important; }
 .centerme {
     margin: 0 auto;
-    width: 100%;
-    height:100%;
 }
  
 .fullscreen-player {
