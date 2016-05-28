@@ -12,8 +12,7 @@
            {{montage.title}}
           </div>
           <div class="item item-image">
-            
-              <video ng-src='{{trustSrc("http://Molli.tv/videos/" + montage.videos[0].video)}}' style=""></video>
+              <video id="{{montage._id}}" src='{{trustSrc("http://Molli.tv/videos/" + montage.videos[0].video)}}'  preload="auto" webkit-playsinline></video>
           </div>
         </a>
       </div>
@@ -27,17 +26,18 @@
     </ion-list>
     <h3 ng-show="noMoreVideos" style="text-align:center;">.... </h3>
   </ion-content>
+  
   <div class="tabs tabs-icon-top">
-  <a class="tab-item active">
-    <i class="icon ion-flame"></i>
-    Trending
-  </a>
-  <a class="tab-item" ui-sref="app.home">
-    <i class="icon ion-calendar"></i>
-    Recent
-  </a>
-  <a class="tab-item icon  tabs-icon-only" ui-sref="app.create_montage">
-    <i class="icon ion-ios-plus-outline" style="size:100%;padding-top:8px;"></i>
-  </a>
-  </div>
+    <a class="tab-item active">
+      <i class="icon ion-flame"></i>
+      Trending
+    </a>
+    <a class="tab-item" ui-sref="app.home">
+      <i class="icon ion-calendar"></i>
+      Recent
+    </a>
+    <a class="tab-item icon  tabs-icon-only" ui-sref="app.create_montage">
+      <i class="icon ion-ios-plus-outline" style="size:100%;padding-top:8px;"></i>
+    </a>
+    </div>
 </ion-view>

@@ -7,12 +7,12 @@
         <div class="row">
       		<div class="col col-10"></div>
           <div class="col col-80">
-            <a class="button button-block button-assertive"  ng-hide="videosAdded.length>1" ng-click="choose_vids()">
+            <a class="button button-block button-assertive"  ng-hide="videosAdded.length" ng-click="choose_vids()">
                Add Videos<i class="ion-videocamera" style="padding-left:8px;"></i>
             </a>
             <br/>
             <span ng-show="videosAdded.length">
-            <span ng-show="videosAdded.length<2">You need at least 2 videos!</span>
+            <span style="text-align:center;" ng-show="videosAdded.length<2" ng-hide="videosAdded.length===2" class="assertive">You need at least 2 videos!</span>
             <a href class="button button-block button-assertive" ng-show="titleReady" ng-click="sendVideosToApi()">
                Submit Montage!<i class="ion-videocamera" style="padding-left:8px;"></i>
             </a>
@@ -26,7 +26,7 @@
           <input type="text" id="title" ng-model="userInfo.title">
         </label>
         <br/>
-            <a class="button button-block button-assertive"  ng-show="videosAdded.length>1" ng-click="choose_vids()">
+            <a class="button button-block button-assertive"  ng-show="videosAdded.length>=1" ng-click="choose_vids()">
                Add More Videos<i class="ion-plus-round" style="padding-left:8px;"></i>
             </a>
             <br />

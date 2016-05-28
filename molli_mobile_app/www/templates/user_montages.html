@@ -10,9 +10,9 @@
         <div class="item item-divider" style="text-align:center;">
          {{montage.title}}
         </div>
-        <div class="item item-image">
+        <div class="item item-image" style="height:50%;">
           <a ui-sref="app.watch_montage({montage_id:montage._id})">
-            <video  style="">
+            <video  style="" webkit-playsinline>
                 <source ng-src='{{trustSrc("http://Molli.tv/videos/" + montage.videos[0].video)}}' > 
               </video>
           </a>
