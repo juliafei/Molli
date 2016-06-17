@@ -1,5 +1,12 @@
 <ion-view view-title="Create Montage" class="bar-assertive" cache-view="false">
   <ion-content>
+  <div class="bar bar-header" ng-show="videosAdded.length>1">
+     <div class="row col-offset-25 assertive" style="font-weight:bold;">
+            <p class="assertive"><i class="ion-chatbubble-working" style="padding-right:8px;"></i> {{videosAdded.length}} Videos Selected</p>
+      </div>   
+
+
+  </div>
     <ion-list>
         <div class="item item-body item-image" ng-hide="videosAdded.length>1">
           <img src="img/addavideogif.gif">
@@ -10,30 +17,48 @@
             <a class="button button-block button-assertive"  ng-hide="videosAdded.length" ng-click="choose_vids()">
                Add Videos<i class="ion-videocamera" style="padding-left:8px;"></i>
             </a>
+
+
+
+
             <br/>
+
             <span ng-show="videosAdded.length">
-            <span style="text-align:center;" ng-show="videosAdded.length<2" ng-hide="videosAdded.length===2" class="assertive">You need at least 2 videos!</span>
-            <a href class="button button-block button-assertive" ng-show="titleReady" ng-click="sendVideosToApi()">
-               Submit Montage!<i class="ion-videocamera" style="padding-left:8px;"></i>
+            <span style="text-align:center;" ng-show="videosAdded.length<2" ng-hide="videosAdded.length===2" class="assertive col-offset-10"><i class="ion-chatbubbles" style="padding-right:8px;"></i>You Need At Least 2 Videos</span>
+            <a href class="button button-block button-balanced" ng-show="titleReady" ng-click="sendVideosToApi()">
+               Submit Montage!<i class="ion-ios-cloud-upload-outline" style="padding-left:8px;"></i>
             </a>
             <input type="file" id="molli_vids" accept="video/*" min="2"  style="display:none;" id="videos[]" min="2" ng-model="molli_videos" onchange="angular.element(this).scope().addVideo(this)" >
+
+            <input type="file" id="molli_thumbnail" accept="image/*"  style="display:none;" min="2" ng-model="molli_image" onchange="angular.element(this).scope().addImage(this)" >
           </div>
        		<div class="col col-10"></div>
         </div>
 
-        <label class="item item-input" ng-show="videosAdded.length>1">
-          <span class="input-label" style="font-weight:bold;">Give your flick a title</span>
+        <label class="item item-input item-stacked-label" ng-show="videosAdded.length>1">
+          <span class="input-label" style="font-weight:bold;">Give Your Montage A Title:</span>
           <input type="text" id="title" ng-model="userInfo.title">
         </label>
-        <br/>
-            <a class="button button-block button-assertive"  ng-show="videosAdded.length>=1" ng-click="choose_vids()">
+           
+          <br/>
+            <a class="button button-assertive button-outline col-offset-25"  ng-show="videosAdded.length>=1" style="text-align:center;" ng-click="choose_vids()">
                Add More Videos<i class="ion-plus-round" style="padding-left:8px;"></i>
+            </a>          
+
+
+
+
+
+             <a class="button button-block button-positive"  ng-show="videosAdded.length>1" ng-hide="!button_stay_hidden" ng-click="choose_image()">
+               Add A Cover Picture <i class="ion-image" style="padding-left:8px;"></i>
             </a>
+            <br/>
+            
             <br />
-        <a href class="button button-block button-assertive" ng-show="videosAdded.length>1" ng-click="sendVideosToApi()">
-               Submit Montage!<i class="ion-videocamera" style="padding-left:8px;"></i>
+        <a href class="button button-block button-balanced" ng-show="!button_stay_hidden" ng-click="sendVideosToApi()">
+               Submit Montage<i class="ion-upload" style="padding-left:8px;"></i>
             </a>
-            <center><span ng-show="videosAdded.length>1" >{{videosAdded.length}} videos Added!</span></center>
+          
 
         </div>
     </ion-list>

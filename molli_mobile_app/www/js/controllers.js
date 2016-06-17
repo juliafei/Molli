@@ -130,6 +130,8 @@ $scope.doSignUp= function() {
 
 .controller('create_montage_controller', function($scope,$state, $ionicPopup,  $ionicLoading,$http) {
   $scope.videosAdded = [];
+  $scope.thumbnail_image = {};
+  $scope.button_stay_hidden = true;
 
   $scope.userInfo = {
     title: "",
@@ -140,6 +142,11 @@ $scope.doSignUp= function() {
     console.log("even fired");
   };  
 
+  $scope.choose_image = function(){
+    ionic.trigger('click', { target: document.getElementById('molli_thumbnail')});
+    console.log("Molli image input fired");
+  };  
+
   $scope.addVideo = function(element){
 
     $scope.$apply(function() {
@@ -148,16 +155,24 @@ $scope.doSignUp= function() {
       console.log($scope.videosAdded);
     });
   };
+
+  $scope.addImage = function(element){
+    $scope.$apply(function() {
+      $scope.thumbnail_image = document.getElementById('molli_thumbnail').files[0];
+      $scope.button_stay_hidden = false;
+      console.log($scope.thumbnail_image);
+    });
+  };
  
    $scope.sendVideosToApi = function() {
         $ionicLoading.show({
-          template: 'Uploading...'
+          template: 'Uploading...This may take up to a few moments.'
           });
         var formData = new FormData();
         if(localStorage.getItem('token') != null){
           formData.append("token", localStorage.getItem('token') );
         };
-        
+        formData.append("thumbnail_image", $scope.thumbnail_image);        
         formData.append("title", $scope.userInfo.title);
         /////getting all videos from html form file input and appending them to data posted to API
         for(i=0;i< $scope.videosAdded.length;i++){
@@ -226,18 +241,38 @@ $scope.doSignUp= function() {
 
 })
 
-.controller('watch_montage_controller', function($scope, $ionicPopup, $stateParams, $state, $http, $ionicLoading, $cordovaSocialSharing) {
-        $scope.$on("$ionicView.beforeEnter", function(event, data){
+.controller('redirect_next_montage_controller', function($scope, $ionicPopup, $stateParams, $state, $http, $ionicLoading, $cordovaSocialSharing) {
+        $state.go('app.watch_montage', {"montage_id": $stateParams.montage_id});
+
+})
+
+.controller('terms_conditons_controller', function($scope, $ionicPopup, $stateParams, $state, $http, $ionicLoading, $cordovaSocialSharing) {
+
+})
+
+
+.controller('watch_montage_controller', function($scope, $rootScope,$ionicPopup, $stateParams, $state, $http, $ionicLoading, $cordovaSocialSharing) {
+        $scope.next_montage = {};
+        $scope.$on("$ionicView.enter", function(event, data){
             $ionicLoading.show({
               template: 'Loading...'
               });
            $scope.getMontageContent();
         });
 
-
+        /*$rootScope.$on('$stateChangeStart', 
+            function(event, toState, toParams, fromState, fromParams, options){ 
+                // transitionTo() promise will be rejected with 
+                // a 'transition prevented' error
+                $ionicLoading.show({
+                  template: 'Loading...'
+                  });
+                $scope.getMontageContent();
+            });*/
+/*
         $scope.$on("$ionicView.enter", function(event, data){
           $scope.beginMontagePlaylist();
-        });
+        });*/
 
          $scope.$on("$ionicView.beforeLeave", function(event, data){
             $scope.leaveState();         
@@ -251,7 +286,7 @@ $scope.doSignUp= function() {
 
         $scope.share_vid = function(montage_badge){
           $cordovaSocialSharing
-            .share("Video On Molli", null, null, "Molli.tv/watch/montage/" + montage_badge) // Share via native share sheet
+            .share("Video On Molli",  "Molli.tv/watch/montage/" + montage_badge, "Molli.tv/watch/montage/" + montage_badge, "Molli.tv/watch/montage/" + montage_badge) // Share via native share sheet
             .then(function(result) {
                
             }, function(err) {
@@ -275,6 +310,12 @@ $scope.doSignUp= function() {
                       /*$scope.nextVid = response.data.next_result._id;
                       console.log( $scope.nextVid);*/
                       $ionicLoading.hide();
+                      var next_result = response.data.next_result;
+                      var rand_int = Math.floor((Math.random() * next_result.length-1) + 0);
+                      $scope.next_montage = next_result[rand_int]._id;
+                      console.log("next montage is: #" +  rand_int);
+                      $scope.beginMontagePlaylist();
+
                     }, function myError(response) {
                        $ionicLoading.hide();
                        $ionicPopup.alert({
@@ -285,8 +326,8 @@ $scope.doSignUp= function() {
                       console.log(response.statusText);
                   });    
           };
-      $scope.goToNext = function(this_id){
-        $state.go('app.watch_montage', {"montage_id": "" + this_id + ""});
+      $scope.goToNext = function(){
+        $state.go($state.current, {"montage_id": $scope.next_montage}, {reload: true , inherit: false, notify: true});
       };
       
       $scope.beginMontagePlaylist = function(){

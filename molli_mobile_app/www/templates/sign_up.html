@@ -1,5 +1,5 @@
 <ion-view  view-title="Sign Up">
-  <ion-content>
+  <ion-content [padding="true"]>
     <form >
       <div class="list">
         <label class="item item-input">
@@ -13,6 +13,7 @@
         <label class="item">
           <button class="button button-block button-positive" ng-click="doSignUp()">Sign up</button>
         </label>
+        By clicking sign up you are agreeing to our <a ui-sref="app.terms_conditions">Terms and Conditions.</a>
       </div>
     </form>
   </ion-content>

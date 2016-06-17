@@ -41,6 +41,17 @@ angular.module('starter', ['ionic', 'ngCordova','starter.controllers', 'starter.
       }
     }
   })
+
+  .state('app.terms_conditions', {
+    url: '/terms_conditions',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/terms_conditions.html',
+
+      }
+    }
+  })
+
     .state('app.home', {
       url: '/home',
       views: {
@@ -73,6 +84,7 @@ angular.module('starter', ['ionic', 'ngCordova','starter.controllers', 'starter.
 
   .state('app.watch_montage', {
     url: '/montage/:montage_id',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/watch_montage.html',
@@ -80,7 +92,6 @@ angular.module('starter', ['ionic', 'ngCordova','starter.controllers', 'starter.
       }
     }
   })
-
   .state('app.watch_my_montage', {
     url: '/my_montages',
     views: {

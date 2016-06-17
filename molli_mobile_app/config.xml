@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.molli.app" version="0.2.1">
+<widget id="com.molli.app" version="0.3.1">
     <name>Molli</name>
     <description>
         An app that turns your videos into shareable montages.
@@ -44,7 +44,7 @@
         <icon density="xxxhdpi" src="resources\android\icon\drawable-xxxhdpi-icon.png" />
     </platform>
     <icon src="resources\android\icon\drawable-xhdpi-icon.png" />
-    <preference name="xwalkVersion" value="xwalk_core_library_beta:18+" />
+    <preference name="xwalkVersion" value="org.xwalk:xwalk_core_library_beta:18.48.477.11" />
     <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
     <preference name="xwalkMode" value="embedded" />
     <preference name="xwalkMultipleApk" value="true" />

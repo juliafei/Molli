@@ -9,12 +9,10 @@
       <div class="list card" ng-repeat="montage in montages">
         <a ui-sref="app.watch_montage({montage_id: montage._id})" style="text-decoration:none;">
           <div class="item item-divider" style="text-align:center;">
-           {{montage.title}}
+           {{montage.title}} <i class="ion-play" style="padding-left:8px;"></i>
           </div>
-          <div class="item item-image" style="background-color:transparent;">
-              <video  style="" preload="auto" webkit-playsinline>
-                <source ng-src='{{trustSrc("http://Molli.tv/videos/" + montage.videos[0].video)}}' > 
-              </video>
+          <div class="item item-body">
+               <img src="{{trustSrc('http://molli.tv/videos/' + montage.thumbnail_location)}}"  class="full-image" >
           </div>
         </a>
       </div>
