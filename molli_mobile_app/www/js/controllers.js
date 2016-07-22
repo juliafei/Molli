@@ -39,7 +39,7 @@ angular.module('starter.controllers', ['ionic', 'starter.services'])
         
     $http({
             method  : 'POST',
-            url     : 'http://Molli.tv/api/login',
+            url     : 'http://localhost:3000/api/login',
             headers : { 'Content-Type': undefined },
             data    :  formData
            })
@@ -94,7 +94,7 @@ $scope.doSignUp= function() {
         
     $http({
             method  : 'POST',
-            url     : 'http://Molli.tv/api/sign_up',
+            url     : 'http://localhost:3000/api/sign_up',
             headers : { 'Content-Type': undefined },
             data    :  formData
            })
@@ -128,10 +128,14 @@ $scope.doSignUp= function() {
 
 
 
-.controller('create_montage_controller', function($scope,$state, $ionicPopup,  $ionicLoading,$http) {
+.controller('create_montage_controller', function($scope,$state, $ionicPopup, $sce, $ionicLoading,$http) {
   $scope.videosAdded = [];
   $scope.thumbnail_image = {};
   $scope.button_stay_hidden = true;
+
+    $scope.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
+    };
 
   $scope.userInfo = {
     title: "",
@@ -158,7 +162,9 @@ $scope.doSignUp= function() {
 
   $scope.addImage = function(element){
     $scope.$apply(function() {
+      var thumbnail_image_path;
       $scope.thumbnail_image = document.getElementById('molli_thumbnail').files[0];
+      $scope.thumbnail_image_path = document.getElementById('molli_thumbnail').value;
       $scope.button_stay_hidden = false;
       console.log($scope.thumbnail_image);
     });
@@ -182,7 +188,7 @@ $scope.doSignUp= function() {
         console.log("this is being called");
         $http({
             method  : 'POST',
-            url     : 'http://Molli.tv/api/montage/new',
+            url     : 'http://localhost:3000/api/montage/new',
             headers : { 'Content-Type': undefined },
             data    :  formData
            })
@@ -214,7 +220,7 @@ $scope.doSignUp= function() {
             
             $http({
                   method  : 'GET',
-                  url     : 'http://Molli.tv/api/account_details?token=' + localStorage.getItem("token"),
+                  url     : 'http://localhost:3000/api/account_details?token=' + localStorage.getItem("token"),
                   headers : { 'Content-Type': undefined },
                  })
               .then(function mySucces(response) {
@@ -286,7 +292,7 @@ $scope.doSignUp= function() {
 
         $scope.share_vid = function(montage_badge){
           $cordovaSocialSharing
-            .share("Video On Molli",  "Molli.tv/watch/montage/" + montage_badge, "Molli.tv/watch/montage/" + montage_badge, "Molli.tv/watch/montage/" + montage_badge) // Share via native share sheet
+            .share("Video On Molli",  "localhost:3000/watch/montage/" + montage_badge, "localhost:3000/watch/montage/" + montage_badge, "localhost:3000/watch/montage/" + montage_badge) // Share via native share sheet
             .then(function(result) {
                
             }, function(err) {
@@ -300,7 +306,7 @@ $scope.doSignUp= function() {
        $scope.getMontageContent = function(){
              $http({
                   method  : 'GET',
-                  url     : 'http://Molli.tv/api/montage/watch/' + $stateParams.montage_id,
+                  url     : 'http://localhost:3000/api/montage/watch/' + $stateParams.montage_id,
                   headers : { 'Content-Type': undefined },
                  })
                 .then(function mySucces(response) {
@@ -332,16 +338,16 @@ $scope.doSignUp= function() {
       
       $scope.beginMontagePlaylist = function(){
         var videoPlayer= document.getElementById('video');
-        videoPlayer.src="http://Molli.tv/videos/" + $scope.video_array[0].video;
+        videoPlayer.src="http://localhost:3000/videos/" + $scope.video_array[0].video;
         var i = 1;
         videoPlayer.addEventListener('ended', function(){
         if(i < $scope.video_array.length){
             this.pause();
-            this.src = "http://Molli.tv/videos/" + $scope.video_array[i].video;
+            this.src = "http://localhost:3000/videos/" + $scope.video_array[i].video;
             i++;
           }
           else{
-            this.src = "http://Molli.tv/videos/" + $scope.video_array[0].video;
+            this.src = "http://localhost:3000/videos/" + $scope.video_array[0].video;
             i = 1;
           }
 
@@ -370,7 +376,7 @@ $scope.doSignUp= function() {
         $scope.loadMore = function() {
            $http({
                   method  : 'GET',
-                  url     : 'http://Molli.tv/api/montage/my_montages/page/' + $scope.counter+'?token=' +localStorage.getItem('token'),
+                  url     : 'http://localhost:3000/api/montage/my_montages/page/' + $scope.counter+'?token=' +localStorage.getItem('token'),
                   headers : { 'Content-Type': undefined },
                  })
               .then(function mySucces(response) {
@@ -399,7 +405,7 @@ $scope.doSignUp= function() {
       $scope.getInitialContent = function(){
         $http({
                   method  : 'GET',
-                  url     : 'http://Molli.tv/api/montage/my_montages/page/' + $scope.counter+'?token=' +localStorage.getItem('token'),
+                  url     : 'http://localhost:3000/api/montage/my_montages/page/' + $scope.counter+'?token=' +localStorage.getItem('token'),
                   headers : { 'Content-Type': undefined },
                  })
               .then(function mySucces(response) {
@@ -442,7 +448,7 @@ $scope.doSignUp= function() {
         $scope.loadMore = function() {
            $http({
                   method  : 'GET',
-                  url     : 'http://Molli.tv/api/montage/recent/page/' + $scope.counter,
+                  url     : 'http://localhost:3000/api/montage/recent/page/' + $scope.counter,
                   headers : { 'Content-Type': undefined },
                  })
               .then(function mySucces(response) {
@@ -471,7 +477,7 @@ $scope.doSignUp= function() {
       $scope.getRecentContent = function(){
         $http({
                   method  : 'GET',
-                  url     : 'http://Molli.tv/api/montage/recent',
+                  url     : 'http://localhost:3000/api/montage/recent',
                   headers : { 'Content-Type': undefined },
                  })
               .then(function mySucces(response) {
@@ -510,7 +516,7 @@ $scope.doSignUp= function() {
         $scope.loadMore = function() {
            $http({
                   method  : 'GET',
-                  url     : 'http://Molli.tv/api/montage/popular/page/' + $scope.counter,
+                  url     : 'http://localhost:3000/api/montage/popular/page/' + $scope.counter,
                   headers : { 'Content-Type': undefined },
                  })
               .then(function mySucces(response) {
@@ -539,7 +545,7 @@ $scope.doSignUp= function() {
       $scope.getRecentContent = function(){
         $http({
                   method  : 'GET',
-                  url     : 'http://Molli.tv/api/montage/popular',
+                  url     : 'http://localhost:3000/api/montage/popular',
                   headers : { 'Content-Type': undefined },
                  })
               .then(function mySucces(response) {

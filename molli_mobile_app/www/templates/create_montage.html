@@ -1,20 +1,21 @@
 <ion-view view-title="Create Montage" class="bar-assertive" cache-view="false">
-  <ion-content>
+  <ion-content style="padding-top:20px;background-color:#161515;">
+
+  <!--
   <div class="bar bar-header" ng-show="videosAdded.length>1">
      <div class="row col-offset-25 assertive" style="font-weight:bold;">
             <p class="assertive"><i class="ion-chatbubble-working" style="padding-right:8px;"></i> {{videosAdded.length}} Videos Selected</p>
       </div>   
 
+  -->
 
   </div>
-    <ion-list>
-        <div class="item item-body item-image" ng-hide="videosAdded.length>1">
-          <img src="img/addavideogif.gif">
-        </div>
+    <ion-list style="color:#161515;">
+          <img src="img/addavideogif.gif" style = "background-color: #161515;width:294px;height:259px;margin-left:40px;" ng-hide="videosAdded.length>1">
         <div class="row">
-      		<div class="col col-10"></div>
+          <div class="col col-10"></div>
           <div class="col col-80">
-            <a class="button button-block button-assertive"  ng-hide="videosAdded.length" ng-click="choose_vids()">
+            <a class="button button-block button-positive" ng-hide="videosAdded.length" ng-click="choose_vids()">
                Add Videos<i class="ion-videocamera" style="padding-left:8px;"></i>
             </a>
 
@@ -24,43 +25,73 @@
             <br/>
 
             <span ng-show="videosAdded.length">
-            <span style="text-align:center;" ng-show="videosAdded.length<2" ng-hide="videosAdded.length===2" class="assertive col-offset-10"><i class="ion-chatbubbles" style="padding-right:8px;"></i>You Need At Least 2 Videos</span>
-            <a href class="button button-block button-balanced" ng-show="titleReady" ng-click="sendVideosToApi()">
+            <span style="text-align:center;color:white;" ng-show="videosAdded.length<2" ng-hide="videosAdded.length>2" class="assertive col-offset-10"><i class="ion-chatbubbles" style="padding-right:8px;color:white;"></i>You Need At Least 2 Videos</span>
+            <a href class="button button-block button-positive" ng-show="titleReady" ng-click="sendVideosToApi()">
                Submit Montage!<i class="ion-ios-cloud-upload-outline" style="padding-left:8px;"></i>
             </a>
             <input type="file" id="molli_vids" accept="video/*" min="2"  style="display:none;" id="videos[]" min="2" ng-model="molli_videos" onchange="angular.element(this).scope().addVideo(this)" >
 
             <input type="file" id="molli_thumbnail" accept="image/*"  style="display:none;" min="2" ng-model="molli_image" onchange="angular.element(this).scope().addImage(this)" >
           </div>
-       		<div class="col col-10"></div>
         </div>
 
-        <label class="item item-input item-stacked-label" ng-show="videosAdded.length>1">
-          <span class="input-label" style="font-weight:bold;">Give Your Montage A Title:</span>
-          <input type="text" id="title" ng-model="userInfo.title">
-        </label>
-           
-          <br/>
-            <a class="button button-assertive button-outline col-offset-25"  ng-show="videosAdded.length>=1" style="text-align:center;" ng-click="choose_vids()">
-               Add More Videos<i class="ion-plus-round" style="padding-left:8px;"></i>
-            </a>          
+        <!--*** Second View Controller, when videosAdded.length >=2 ***-->
+        <i style="color:white;font-size:20px;" ng-show="videosAdded.length>1"> Your Videos </i>
+        
+    <!--
+        <a class="image" ng-hide="button_stay_hidden" ng-show="videosAdded>=2">
+              <img ng-src="{{trustSrc(videosAdded)}}">
+          </a>
 
+    -->
+        <br></br>
+          <a class="button button-positive col-offset-25"  ng-show="videosAdded.length==1" style="text-align:center;color:white;" ng-click="choose_vids()">
+             Add More Videos<i class="ion-plus-round" style="padding-left:8px;"></i>
+          </a>         
+          <a class="image" ng-show="videosAdded.length>=2" style="text-align:center;color:white;" ng-click="choose_vids()">
+             <i class="addImage"></i>
+          </a>      
+        <br></br>
 
+        <i style="color:white;font-size:20px;" ng-show="videosAdded.length>1">Your Cover Picture </i>
+        <br></br>
+          <a class="image" ng-show="videosAdded.length>1" ng-show="!image_stay_hidden" ng-hide="thumbnail_image" ng-click="choose_image()">
+            <i class="addImage"></i>
+          </a>
 
+          <a class="image" ng-hide="button_stay_hidden" ng-show="thumbnail_image">
+              <img ng-src="{{trustSrc(thumbnail_image_path)}}">
+          </a>
 
-
-             <a class="button button-block button-positive"  ng-show="videosAdded.length>1" ng-hide="!button_stay_hidden" ng-click="choose_image()">
-               Add A Cover Picture <i class="ion-image" style="padding-left:8px;"></i>
-            </a>
-            <br/>
-            
-            <br />
-        <a href class="button button-block button-balanced" ng-show="!button_stay_hidden" ng-click="sendVideosToApi()">
+        <br></br>
+        <i ng-show="videosAdded.length>1" style="color:white;font-size:20px;">Your Montage's Title</i>
+        <br></br>
+        <input ng-show="videosAdded.length>1" type="text" id="title" ng-model="userInfo.title" style="margin-right:40px;border-radius:5px;">
+        
+        <br></br>
+        <br></br>
+        <a href class="button button-block button-positive" ng-show="!button_stay_hidden" ng-click="sendVideosToApi()" style="margin-left:55px;margin-right:55px;height:30px;">
                Submit Montage<i class="ion-upload" style="padding-left:8px;"></i>
-            </a>
+        </a>
           
 
         </div>
     </ion-list>
   </ion-content>
+
+<!--*** FOOTER ***-->
+  <div class = "tabs-striped tabs-background-dark tabs-color-royal">
+   <div class = "tabs">
+    <a class="tab-item" ui-sref="app.popular">
+      <i class="icon ion-ios-flame-outline" ></i>
+    </a>
+    <a class="tab-item active icon  tabs-icon-only" ui-sref="app.create_montage">
+      <i class="icon ion-ios-videocam-outline" style="color:white"></i>
+    </a>
+    <a class="tab-item" ui-sref="app.home">
+      <i class="icon ion-ios-clock-outline"></i>
+    </a>
+  </div>
+</div>
 </ion-view>
+
